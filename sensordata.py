@@ -3,6 +3,7 @@ import time
 import board
 import busio
 import csv
+import sys
 from digitalio import DigitalInOut, Direction, Pull
 from adafruit_pm25.i2c import PM25_I2C
 
@@ -19,23 +20,29 @@ bme680 = adafruit_bme680.Adafruit_BME680_I2C(i2c)
 
 bme680.sea_level_pressure = 1013.25
 
-start= time.time()
 
-t=0
+
+start= time.time()
+run_time = 300
+run_time = int(sys.argv[1])
+
+t = 0
 
 meta_data = ['Time','PM1','PM2.5','PM10','Temperature','Humidity','Pressure','Altitude']
 
-file = open("air_qualit_data.csv","w",newline="")
+name_of_file = "aq_and_w_data.csv"
+name_of_file = (sys.argv[2])
+file = open(name_of_file,"w",newline="")
 data_writer = csv.writer(file)
 data_writer.writerow(meta_data)
 
 
 print("Found PM2.5 sensor, reading data...")
 
-while t<20:
+while t<run_time:
     try:
         aqdata = pm25.read()
-        # print(aqdata)
+        
     except RuntimeError:
         print("Unable to read from sensor, retrying...")
         continue
