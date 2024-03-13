@@ -8,7 +8,7 @@ def my_callback(channel):
 try:
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(6, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.add_event_detect(6, GPIO.BOTH, callback=my_callback)
+    GPIO.add_event_detect(6, GPIO.FALLING, callback=my_callback)
     
 finally:
     GPIO.cleanup()
